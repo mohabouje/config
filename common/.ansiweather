@@ -1,0 +1,7 @@
+location:Amsterdam,NL
+units:metric
+show_daylight:true
+show_uvi:true
+show_wind:true
+show_humidity:true
+show_pressure:true
