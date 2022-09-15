@@ -1,0 +1,38 @@
+show-summary: false
+show-tags: false
+show-fundamentals: false
+show-separator: true
+show-holdings: false
+sort: user
+interval: 1
+groups:
+  - name: index
+    watchlist:
+      - ^ACWI
+      - ^SPX
+      - ^NDX
+      - ^DJI
+      - ^MID
+      - ^VIX
+      - ^STOXX50E
+      - ^FTSE
+      - ^IBEX
+      - ^FTSE
+      - ^GDAXI
+      - ^FCHI
+      - ^N225
+      - ^BVSP
+  - name: crypto
+    watchlist:
+      - BTC-USD
+      - ETH-USD
+  - name: tech
+    watchlist:
+      - AAPL
+      - MSFT
+      - AMZN
+      - GOOG
+      - FB
+      - TSLA
+      - NVDA
+      - AMD

@@ -4,31 +4,60 @@ SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 PARENT_DIR="$(dirname "$SCRIPT_DIR")"
 COMMON_DIR="$PARENT_DIR/common"
 
-brewif() { if brew ls --versions "$1" &>/dev/null; then : else brew install "$1"; fi; }
+prepend() {
+    local file="$1"
+    local text="$2"
+    local tmpFile="$(mktemp)"
+    echo "$text" >"$tmpFile"
+    cat "$file" >>"$tmpFile"
+    mv "$tmpFile" "$file"
+}
+
+brewif() {
+    local package="$1"
+    if ! brew ls --versions "$package" >/dev/null; then
+        brew install "$package"
+    fi
+}
+
+download() {
+    local url="$1"
+    local file="$2"
+    if [ ! -f "$script" ]; then
+        curl -sL "$url" -o "$file"
+        chmod +x "$file"
+    fi
+}
 
 echo "Downloading a set of functionalities from GitHub"
-curl --silent -L git.io/antigen >${HOME}/.antigen.zsh && chmod +x ${HOME}/.antigen.zsh
-curl --silent -L https://raw.githubusercontent.com/beauwilliams/awesome-fzf/master/awesome-fzf.zsh >${HOME}/.awesome-fzf.zsh && chmod +x ${HOME}/.awesome-fzf.zsh
-curl --silent -L https://raw.githubusercontent.com/rupa/z/master/z.sh >${HOME}/.zcommand.sh && chmod +x ${HOME}/.zcommand.sh
-curl --silent -L https://raw.githubusercontent.com/nikitavoloboev/dotfiles/master/zsh/functions/fzf-functions.zsh >${HOME}/.fzf-functions.zsh && chmod +x ${HOME}/.fzf-functions.zsh
+download git.io/antigen ${HOME}/.antigen.zsh
+download https://raw.githubusercontent.com/beauwilliams/awesome-fzf/master/awesome-fzf.zsh ${HOME}/.awesome-fzf.zsh
+download https://raw.githubusercontent.com/rupa/z/master/z.sh ${HOME}/.zcommand.sh
+download https://raw.githubusercontent.com/nikitavoloboev/dotfiles/master/zsh/functions/fzf-functions.zsh ${HOME}/.fzf-functions.zsh
 
-echo "Installing Homebrew..."
-if [[ $(command -v brew) == "" ]]; then
+if ! command -v brew &>/dev/null; then
+    echo "Installing homebrew..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
 echo "Installing zsh..."
 brewif zsh
-chsh -s $(which zsh)
 
+if [ "$SHELL" != "/bin/zsh" ]; then
+    echo "Changing shell to zsh..."
+    chsh -s /bin/zsh
+fi
+
+ZSH="${ZSH:-$HOME/.oh-my-zsh}"
 if [ ! -d "$ZSH" ]; then
     echo "Installing oh-my-zsh..."
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi
 
 echo "Installing common configuration files..."
-cp -r ${COMMON_DIR}/.zshrc ${HOME}/.zshrc
-cp -r ${COMMON_DIR}/.ansiweather ${HOME}/.ansiweather
+cp -r ${COMMON_DIR}/.zshrc ${HOME}
+cp -r ${COMMON_DIR}/.ansiweather ${HOME}
+cp -r ${COMMON_DIR}/.ticker.yaml ${HOME}
 
 echo "Installing fzf..."
 brewif fzf
@@ -40,7 +69,18 @@ brewif nanorc
 echo 'include "/opt/homebrew/Cellar/nano/*/share/nano/*.nanorc"' >>${HOME}/.nanorc
 
 echo "Installing pre-configured tools..."
-brewif fd btop ctop diff-so-fancy wget coreutils navi ansiweather
+brewif fd
+brewif btop
+brewif ctop
+brewif diff-so-fancy
+brewif wget
+brewif coreutils
+brewif navi
+
+echo "Installing interesting tools for day-to-day use..."
+brewif ansiweather
+brewif achannarasappa/tap/ticker
+brewif ical-buddy
 
 echo "Installing fonts for iTerm2..."
 brew tap homebrew/cask-fonts
@@ -57,21 +97,20 @@ brewif zplug
 
 echo "Adding configurations to the shell configuration file..."
 
-echo 'export AWESOME_FZF_LOCATION=$(which fzf)\n' | cat - ${HOME}/.zshrc >temp && mv temp ${HOME}/.zshrc
-echo '# Load path for awesome-fzf' | cat - ${HOME}/.zshrc >temp && mv temp ${HOME}/.zshrc
+prepend ${HOME}/.zshrc 'export AWESOME_FZF_LOCATION=$(which fzf)\n'
+prepend ${HOME}/.zshrc '# Load path for awesome-fzf'
 
-echo '. ${HOME}/.awesome-fzf.zsh\n' | cat - ${HOME}/.zshrc >temp && mv temp ${HOME}/.zshrc
-echo '. ${HOME}/.zcommand.sh' | cat - ${HOME}/.zshrc >temp && mv temp ${HOME}/.zshrc
-echo '. ${HOME}/.fzf-functions.zsh' | cat - ${HOME}/.zshrc >temp && mv temp ${HOME}/.zshrc
-echo '# Load external functionalities' | cat - ${HOME}/.zshrc >temp && mv temp ${HOME}/.zshrc
+prepend ${HOME}/.zshrc '. ${HOME}/.awesome-fzf.zsh\n'
+prepend ${HOME}/.zshrc '. ${HOME}/.zcommand.sh'
+prepend ${HOME}/.zshrc '. ${HOME}/.fzf-functions.zsh'
+prepend ${HOME}/.zshrc '# Load external functionalities'
 
-echo "export PATH=\"\${HOME}/.git-fuzzy/bin:\$PATH\"\n" | cat - ${HOME}/.zshrc >temp && mv temp ${HOME}/.zshrc
-echo "# Load default git-fuzzy binaries" | cat - ${HOME}/.zshrc >temp && mv temp ${HOME}/.zshrc
+prepend ${HOME}/.zshrc "export PATH=\"\${HOME}/.git-fuzzy/bin:\$PATH\"\n"
+prepend ${HOME}/.zshrc "# Load default git-fuzzy binaries"
 
-echo 'export ZPLUG_HOME=/opt/homebrew/opt/zplug\n' | cat - ${HOME}/.zshrc >temp && mv temp ${HOME}/.zshrc
-echo "# Exporting zplug home" | cat - ${HOME}/.zshrc >temp && mv temp ${HOME}/.zshrc
+prepend ${HOME}/.zshrc 'export ZPLUG_HOME=/opt/homebrew/opt/zplug\n'
+prepend ${HOME}/.zshrc "# Exporting zplug home"
 
-echo "Making installed packages available in the terminal..."
-echo 'eval $(thefuck --alias)\n' | cat - ${HOME}/.zshrc >temp && mv temp ${HOME}/.zshrc
-echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' | cat - ${HOME}/.zshrc >temp && mv temp ${HOME}/.zshrc
-echo '# Make installed packages available in the terminal' | cat - ${HOME}/.zshrc >temp && mv temp ${HOME}/.zshrc
+prepend ${HOME}/.zshrc 'eval $(thefuck --alias)\n'
+prepend ${HOME}/.zshrc 'eval "$(/opt/homebrew/bin/brew shellenv)"'
+prepend ${HOME}/.zshrc '# Make installed packages available in the terminal'

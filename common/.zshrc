@@ -18,6 +18,15 @@ weather-in() {
   ansiweather -l "$1"
 }
 
+# Simple alias for ticker app
+alias calendar-today="icalBuddy eventsToday"
+alias calendar-now="icalBuddy eventsNow"
+alias calendar-tomorrow="icalBuddy eventsFrom:'tomorrow' to:'tomorrow'"
+alias calendar-week="icalBuddy eventsToday+7"
+calendar-in() {
+  icalBuddy eventsWeek+"$1"
+}
+
 # Source zplug
 source ${ZPLUG_HOME}/init.zsh
 
@@ -54,4 +63,4 @@ if ! zplug check --verbose; then
 fi
 
 # Apply the final changes
-zplug load --verbose
+zplug load
