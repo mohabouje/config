@@ -13,6 +13,9 @@ rm -rf ${HOME}/.config/mbb
 [ -f ${HOME}/.fzf.bash ] && rm ${HOME}/.fzf.bash
 [ -f ${HOME}/.zshrc.pre-oh-my-zsh ] && rm ${HOME}/.zshrc.pre-oh-my-zsh
 
+[ -f ${HOME}/.antidoterc ] && rm ${HOME}/.antidoterc
+[ -f ${HOME}/.zshrc.pre-oh-my-zsh ] && rm ${HOME}/.antidoterc.zsh
+
 # Common folders for terminal plugins
 rm -rf ${HOME}/.oh-my-zsh
 rm -rf ${HOME}/.fzf

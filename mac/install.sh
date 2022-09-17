@@ -88,8 +88,8 @@ if [ ! -d ${GIT_FUZZY_FOLDER} ]; then
     git clone https://github.com/bigH/git-fuzzy.git ${GIT_FUZZY_FOLDER}
 fi
 
-echo "Installing zplug..."
-brewif zplug
+echo "Installing antidote..."
+brewif antidote
 
 echo "Adding configurations to the shell configuration file..."
 
@@ -97,14 +97,13 @@ prepend ${HOME}/.zshrc "export EDITOR=$(which code)\n"
 prepend ${HOME}/.zshrc '# Set the default editor for most operations to code'
 
 prepend ${HOME}/.zshrc "for f in ${MBB_FOLDER}/*.zsh; do source \$f; done\n"
-prepend ${HOME}/.zshrc "for f in ${MBB_FOLDER}/third_party/*; do source \$f; done"
 prepend ${HOME}/.zshrc '# Load extensions and extra functionalities'
 
 prepend ${HOME}/.zshrc "export PATH=\"\${HOME}/.git-fuzzy/bin:\$PATH\"\n"
 prepend ${HOME}/.zshrc "# Load default git-fuzzy binaries"
 
-prepend ${HOME}/.zshrc 'export ZPLUG_HOME=$(brew --prefix)/opt/zplug\n'
-prepend ${HOME}/.zshrc "# Exporting zplug home"
+prepend ${HOME}/.zshrc 'export ANTIDOTE_HOME=$(brew --prefix)/opt/antidote/share/antidote\n'
+prepend ${HOME}/.zshrc "# Exporting antidote home"
 
 prepend ${HOME}/.zshrc 'eval $(thefuck --alias)\n'
 prepend ${HOME}/.zshrc 'eval "$(/opt/homebrew/bin/brew shellenv)"'

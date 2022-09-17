@@ -9,5 +9,5 @@ alias lt="exa --tree --icons -a"
 alias grep='grep --color=auto'
 
 # Special case for git repositories
-alias ls-code=la --git-ignore --ignore-glob=".git"
-alias lt-code=lt --git-ignore --ignore-glob=".git"
+alias ls-code="exa --icons --git-ignore --ignore-glob='.git'"
+alias lt-code="exa --tree --icons -a --git-ignore --ignore-glob='.git'"
