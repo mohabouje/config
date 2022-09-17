@@ -28,3 +28,4 @@ FZF_DEFAULT_OPTS+=' --bind "ctrl-d:deselect-all"'
 FZF_DEFAULT_OPTS+=' --bind "ctrl-t:toggle-all"'
 FZF_DEFAULT_OPTS+=' --bind "ctrl-s:toggle-sort"'
 FZF_DEFAULT_OPTS+=' --bind "ctrl-r:reload(eval $FZF_DEFAULT_COMMAND)"'
+export FZF_DEFAULT_OPTS
