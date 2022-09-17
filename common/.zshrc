@@ -1,30 +1,12 @@
-# Aliases for common commands on Linux
-alias la='ls -lah --color=auto'
-alias lh='ls -lh --color=auto'
-alias ls='ls --color=auto'
-alias l='ls --color=auto'
-alias grep='grep --color=auto'
-
-# Gray color for autosuggestions
-export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=247'
-
-# fzf settings. Uses sharkdp/fd for a faster alternative to `find`.
-export FZF_CTRL_T_COMMAND='fd --type f --hidden --exclude .git --exclude .cache'
-export FZF_ALT_C_COMMAND='fd --type d --hidden --exclude .git'
+# Fix for oh-my-zsh error:zle:9: widgets can only be called when ZLE is active
+TRAPWINCH() {
+  zle && { zle reset-prompt; zle -R }
+}
 
 # Simple alias for the weather app
 alias weather="ansiweather"
 weather-in() {
   ansiweather -l "$1"
-}
-
-# Simple alias for ticker app
-alias calendar-today="icalBuddy eventsToday"
-alias calendar-now="icalBuddy eventsNow"
-alias calendar-tomorrow="icalBuddy eventsFrom:'tomorrow' to:'tomorrow'"
-alias calendar-week="icalBuddy eventsToday+7"
-calendar-in() {
-  icalBuddy eventsWeek+"$1"
 }
 
 # Source zplug
@@ -37,6 +19,7 @@ zplug "romkatv/powerlevel10k", use:powerlevel10k.zsh-theme
 zplug "plugins/git", from:oh-my-zsh
 zplug "plugins/autojump", from:oh-my-zsh
 zplug "plugins/z", from:oh-my-zsh
+zplug "plugins/python", from:oh-my-zsh
 
 # Installing plugins for k
 zplug "supercrabtree/k"

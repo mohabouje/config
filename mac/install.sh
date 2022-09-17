@@ -2,7 +2,7 @@
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 PARENT_DIR="$(dirname "$SCRIPT_DIR")"
-COMMON_DIR="$PARENT_DIR/common"
+MBB_FOLDER="${HOME}/.config/mbb/$(git rev-parse --short HEAD)"
 
 prepend() {
     local file="$1"
@@ -29,21 +29,16 @@ download() {
     fi
 }
 
-echo "Downloading a set of functionalities from GitHub"
-download git.io/antigen ${HOME}/.antigen.zsh
-download https://raw.githubusercontent.com/beauwilliams/awesome-fzf/master/awesome-fzf.zsh ${HOME}/.awesome-fzf.zsh
-download https://raw.githubusercontent.com/rupa/z/master/z.sh ${HOME}/.zcommand.sh
-download https://raw.githubusercontent.com/nikitavoloboev/dotfiles/master/zsh/functions/fzf-functions.zsh ${HOME}/.fzf-functions.zsh
-
 if ! command -v brew &>/dev/null; then
     echo "Installing homebrew..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
+HOMEBREW_PREFFIX=$(brew --prefix)
 
 echo "Installing zsh..."
 brewif zsh
 
-if [ "$SHELL" != "/bin/zsh" ]; then
+if [ "$SHELL" != "/usr/local/bin/zsh" ]; then
     echo "Changing shell to zsh..."
     chsh -s /bin/zsh
 fi
@@ -55,18 +50,20 @@ if [ ! -d "$ZSH" ]; then
 fi
 
 echo "Installing common configuration files..."
-cp -r ${COMMON_DIR}/.zshrc ${HOME}
-cp -r ${COMMON_DIR}/.ansiweather ${HOME}
-cp -r ${COMMON_DIR}/.ticker.yaml ${HOME}
+cp -a ${PARENT_DIR}/common/. ${HOME}
+
+echo "Installing common scripts..."
+mkdir -p ${MBB_FOLDER}
+cp -a ${PARENT_DIR}/scripts/. ${MBB_FOLDER}
 
 echo "Installing fzf..."
 brewif fzf
-/opt/homebrew/opt/fzf/install --all
+$HOMEBREW_PREFFIX/opt/fzf/install --all
 
 echo "Installing highlight for nano..."
 brewif --cask nano
 brewif nanorc
-echo 'include "/opt/homebrew/Cellar/nano/*/share/nano/*.nanorc"' >>${HOME}/.nanorc
+echo "include ${HOMEBREW_PREFFIX}/Cellar/nano/*/share/nano/*.nanorc" >${HOME}/.nanorc
 
 echo "Installing pre-configured tools..."
 brewif fd
@@ -76,6 +73,8 @@ brewif diff-so-fancy
 brewif wget
 brewif coreutils
 brewif navi
+brewif bat
+brewif ripgrep
 
 echo "Installing interesting tools for day-to-day use..."
 brewif ansiweather
@@ -97,20 +96,21 @@ brewif zplug
 
 echo "Adding configurations to the shell configuration file..."
 
-prepend ${HOME}/.zshrc 'export AWESOME_FZF_LOCATION=$(which fzf)\n'
-prepend ${HOME}/.zshrc '# Load path for awesome-fzf'
+prepend ${HOME}/.zshrc "export EDITOR=$(which code)"
+prepend ${HOME}/.zshrc '# Set the default editor for most operations to code'
 
-prepend ${HOME}/.zshrc '. ${HOME}/.awesome-fzf.zsh\n'
-prepend ${HOME}/.zshrc '. ${HOME}/.zcommand.sh'
-prepend ${HOME}/.zshrc '. ${HOME}/.fzf-functions.zsh'
-prepend ${HOME}/.zshrc '# Load external functionalities'
+prepend ${HOME}/.zshrc "source ${MBB_FOLDER}/all.zsh\n"
+prepend ${HOME}/.zshrc '# Load extensions and extra functionalities'
 
 prepend ${HOME}/.zshrc "export PATH=\"\${HOME}/.git-fuzzy/bin:\$PATH\"\n"
 prepend ${HOME}/.zshrc "# Load default git-fuzzy binaries"
 
-prepend ${HOME}/.zshrc 'export ZPLUG_HOME=/opt/homebrew/opt/zplug\n'
+prepend ${HOME}/.zshrc 'export ZPLUG_HOME=$(brew --prefix)/opt/zplug\n'
 prepend ${HOME}/.zshrc "# Exporting zplug home"
 
 prepend ${HOME}/.zshrc 'eval $(thefuck --alias)\n'
 prepend ${HOME}/.zshrc 'eval "$(/opt/homebrew/bin/brew shellenv)"'
 prepend ${HOME}/.zshrc '# Make installed packages available in the terminal'
+
+echo "\n# macOS configuration\n" >>${HOME}/.zshrc
+cat ${SCRIPT_DIR}/.zshrc >>${HOME}/.zshrc
