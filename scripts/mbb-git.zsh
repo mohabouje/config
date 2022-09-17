@@ -4,13 +4,21 @@
 # - git status
 # - git checkout
 
-__is_in_git_repo() {
+function __is_in_git_repo() {
   git rev-parse HEAD > /dev/null 2>&1
+}
+
+function __is_editor_set() {
+    if [ -z "$EDITOR" ]; then
+        return 1
+    fi
+    return 0
 }
 
 # Enhanced Git Status (Open multiple files with tab + diff preview)
 function mbb-git-status() {
     __is_in_git_repo || { echo "This is not a git repository" && return }
+    __is_editor_set || { echo "\code is not defined" && return }
     local selected
     selected=$(git -c color.status=always status --short |
         fzf --height 50% "$@" --border -m --ansi --nth 2..,.. \
@@ -27,6 +35,7 @@ alias gstatus='mbb-git-status'
 # Falls back to fuzzy branch selector list powered by fzf if no args.
 function mbb-git-checkout(){
     __is_in_git_repo || { echo "This is not a git repository" && return }
+    __is_editor_set || { echo "\code is not defined" && return }
     if [[ "$#" -eq 0 ]]; then
         local branches branch
         branches=$(git branch -a) &&
@@ -47,6 +56,7 @@ alias gcheckout='mbb-git-checkout'
 # Create a function to git commit with fzf
 function mbb-git-commit() {
     __is_in_git_repo || { echo "This is not a git repository" && return }
+    __is_editor_set || { echo "\code is not defined" && return }
     local selected
     selected=$(git status --short |
         fzf --height 50% "$@" --border -m --ansi --nth 2..,.. \
@@ -59,3 +69,17 @@ function mbb-git-commit() {
     git commit
 }
 alias gcommit='mbb-git-commit'
+
+# Custom key-binding to keep consistency cross platforms
+export GIT_FUZZY_SELECT_ALL_KEY="Ctrl-A"
+export GIT_FUZZY_SELECT_NONE_KEY="Ctrl-D"
+export GIT_FUZZY_STATUS_ADD_KEY='Ctrl-O'
+export GIT_FUZZY_STATUS_RESET_KEY='Ctrl-R'
+export GIT_FUZZY_STATUS_EDIT_KEY='Ctrl-E'
+export GIT_FUZZY_STATUS_COMMIT_KEY='Space'
+export GIT_FUZZY_STATUS_DISCARD_KEY='Ctrl-X'
+
+alias gf-commit=git-fuzzy status
+alias gf-log=git-fuzzy log
+alias gf-diff=git-fuzzy diff
+alias gf-branch=git-fuzzy branch

@@ -21,9 +21,6 @@ rm -rf ${HOME}/.oh-my-zsh
 rm -rf ${HOME}/.fzf
 rm -rf ${HOME}/.zsh_sessions
 
-# Git repositories download during the installation
-rm -rf "${HOME}/.git-fuzzy"
-
 # Git configuration files
 # rm ${HOME}/.gitconfig
 # rm ${HOME}/.gitignore_global

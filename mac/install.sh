@@ -82,12 +82,6 @@ echo "Installing fonts for iTerm2..."
 brew tap homebrew/cask-fonts
 brewif --cask font-meslo-lg-nerd-font
 
-echo "Installing git-fuzzy..."
-GIT_FUZZY_FOLDER="${HOME}/.git-fuzzy"
-if [ ! -d ${GIT_FUZZY_FOLDER} ]; then
-    git clone https://github.com/bigH/git-fuzzy.git ${GIT_FUZZY_FOLDER}
-fi
-
 echo "Installing antidote..."
 brewif antidote
 
