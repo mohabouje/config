@@ -7,6 +7,12 @@
 # - Add options to fzf to ignore .gitingore and .gitignore_global
 # - Add options to fzf to ignore .git
 
+export FZF_PREVIEW='([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (tree -C {} | less)) || echo {} 2>/dev/null | head -n 200'
+export FZF_PREVIEW_WINDOW=':nohidden'
+export FZF_DEFAULT_COMMAND='fd --color=always --strip-cwd-prefix --hidden --follow --exclude .git'
+export FZF_CTRL_T_COMMAND="${FZF_DEFAULT_COMMAND} --type f"
+export FZF_ALT_C_COMMAND="${FZF_DEFAULT_COMMAND} --type d"
+
 FZF_DEFAULT_OPTS+=' --ansi'
 FZF_DEFAULT_OPTS+=' --extended'
 FZF_DEFAULT_OPTS+=' --info=inline'
@@ -22,9 +28,3 @@ FZF_DEFAULT_OPTS+=' --bind "ctrl-d:deselect-all"'
 FZF_DEFAULT_OPTS+=' --bind "ctrl-t:toggle-all"'
 FZF_DEFAULT_OPTS+=' --bind "ctrl-s:toggle-sort"'
 FZF_DEFAULT_OPTS+=' --bind "ctrl-r:reload(eval $FZF_DEFAULT_COMMAND)"'
-
-export FZF_PREVIEW='([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (tree -C {} | less)) || echo {} 2>/dev/null | head -n 200'
-export FZF_PREVIEW_WINDOW=':visible'
-export FZF_DEFAULT_COMMAND='fd --color=always --strip-cwd-prefix --hidden --follow --exclude .git'
-export FZF_CTRL_T_COMMAND="${FZF_DEFAULT_COMMAND} --type f"
-export FZF_ALT_C_COMMAND="${FZF_DEFAULT_COMMAND} --type d"

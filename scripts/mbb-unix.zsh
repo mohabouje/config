@@ -2,7 +2,6 @@
 # The file is meant to be sourced in .zshrc or .bashrc.
 # The file contains extensions for the following commands:
 # - rm
-# - ls
 # - man
 # - eval
 # - open/xdg-open
@@ -22,29 +21,6 @@ function mbb-rm() {
   fi
 }
 alias frm='mbb-rm'
-
-# Extention of ls command
-function mbb-ls() {
-  function custom-ls() {
-    case $(uname) in
-    Darwin*)
-      /bin/ls
-      /bin/ls -A | grep "^\."
-      ;;
-    Linux*)
-      /bin/ls --color='never'
-      /bin/ls --color='never' -A | grep "^\."
-      ;;
-    *)
-      /bin/ls
-      ;;
-    esac
-  }
-  local filepath="./$(custom-ls | fzf --prompt 'PATH>')"
-  echo "$filepath"
-  return
-}
-alias fls='mbb-ls'
 
 # Extention of man command
 function mbb-man() {

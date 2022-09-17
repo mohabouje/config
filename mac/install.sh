@@ -38,15 +38,9 @@ HOMEBREW_PREFFIX=$(brew --prefix)
 echo "Installing zsh..."
 brewif zsh
 
-if [ "$SHELL" != "/usr/local/bin/zsh" ]; then
+if [ "$SHELL" != "/usr/local/bin/zsh" ] && [ "$SHELL" != "/bin/zsh" ]; then
     echo "Changing shell to zsh..."
     chsh -s /bin/zsh
-fi
-
-ZSH="${ZSH:-$HOME/.oh-my-zsh}"
-if [ ! -d "$ZSH" ]; then
-    echo "Installing oh-my-zsh..."
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi
 
 echo "Installing common configuration files..."
@@ -58,12 +52,13 @@ cp -a ${PARENT_DIR}/scripts/. ${MBB_FOLDER}
 
 echo "Installing fzf..."
 brewif fzf
-$HOMEBREW_PREFFIX/opt/fzf/install --all
+$HOMEBREW_PREFFIX/opt/fzf/install --all >>/dev/null
 
-echo "Installing highlight for nano..."
+echo "Installing highlight for editors..."
 brewif --cask nano
 brewif nanorc
-echo "include ${HOMEBREW_PREFFIX}/Cellar/nano/*/share/nano/*.nanorc" >${HOME}/.nanorc
+echo "include ${HOMEBREW_PREFFIX}/Cellar/nano/*/share/nano/*.nanorc" >>${HOME}/.nanorc
+echo "set rtp+=${HOMEBREW_PREFFIX}/opt/fzf" >>${HOME}/.vimrc
 
 echo "Installing pre-configured tools..."
 brewif fd
@@ -75,6 +70,8 @@ brewif coreutils
 brewif navi
 brewif bat
 brewif ripgrep
+brewif tree
+brewif exa
 
 echo "Installing interesting tools for day-to-day use..."
 brewif ansiweather
@@ -96,10 +93,11 @@ brewif zplug
 
 echo "Adding configurations to the shell configuration file..."
 
-prepend ${HOME}/.zshrc "export EDITOR=$(which code)"
+prepend ${HOME}/.zshrc "export EDITOR=$(which code)\n"
 prepend ${HOME}/.zshrc '# Set the default editor for most operations to code'
 
-prepend ${HOME}/.zshrc "source ${MBB_FOLDER}/all.zsh\n"
+prepend ${HOME}/.zshrc "for f in ${MBB_FOLDER}/*.zsh; do source \$f; done\n"
+prepend ${HOME}/.zshrc "for f in ${MBB_FOLDER}/third_party/*; do source \$f; done"
 prepend ${HOME}/.zshrc '# Load extensions and extra functionalities'
 
 prepend ${HOME}/.zshrc "export PATH=\"\${HOME}/.git-fuzzy/bin:\$PATH\"\n"

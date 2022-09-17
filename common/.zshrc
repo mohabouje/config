@@ -3,12 +3,6 @@ TRAPWINCH() {
   zle && { zle reset-prompt; zle -R }
 }
 
-# Simple alias for the weather app
-alias weather="ansiweather"
-weather-in() {
-  ansiweather -l "$1"
-}
-
 # Source zplug
 source ${ZPLUG_HOME}/init.zsh
 
