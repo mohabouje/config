@@ -72,6 +72,13 @@ brewif bat
 brewif ripgrep
 brewif tree
 brewif exa
+brewif antidote
+brewif tmux
+brewif thefuck
+
+echo "Installing anaconda..."
+brewif --cask anaconda
+$HOMEBREW_PREFFIX/anaconda3/bin/conda init zsh >>/dev/null
 
 echo "Installing interesting tools for day-to-day use..."
 brewif ansiweather

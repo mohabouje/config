@@ -77,9 +77,11 @@ export GIT_FUZZY_STATUS_ADD_KEY='Ctrl-O'
 export GIT_FUZZY_STATUS_RESET_KEY='Ctrl-R'
 export GIT_FUZZY_STATUS_EDIT_KEY='Ctrl-E'
 export GIT_FUZZY_STATUS_COMMIT_KEY='Space'
-export GIT_FUZZY_STATUS_DISCARD_KEY='Ctrl-X'
+export GIT_FUZZY_STATUS_DISCARD_KEY='Ctrl-K'
 
 alias gf-commit=git-fuzzy status
 alias gf-log=git-fuzzy log
 alias gf-diff=git-fuzzy diff
 alias gf-branch=git-fuzzy branch
+
+alias gitignore=gi
