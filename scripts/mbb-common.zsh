@@ -11,16 +11,16 @@ function mbb-aliases() {
 
     eval $CMD
 }
-alias falias='mbb-aliases-functions'
+alias falias='mbb-aliases'
 
 # Search for an specific function
 function mbb-functions() {
     CMD=$(
         ( 
             (functions | grep "()" | cut -d ' ' -f1 | grep -v "^_")
-        ) | fzf --preview '' | cut -d '=' -f1
+        ) | fzf --ansi --preview 'which {} | bat' | cut -d '=' -f1
     )
 
     eval $CMD
 }
-alias ffunctions='mbb-aliases-functions'
+alias ffunctions='mbb-functions'
