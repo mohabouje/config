@@ -62,8 +62,7 @@ function success() {
 }
 
 function debug() {
-    if [ -z "$DEBUG"]; then
-        return 1
+    if [ -z $DEBUG]; then
+        echo "\033[1;35m[  DEBUG  ] $1\033[0m"
     fi
-    echo "\033[1;35m[  DEBUG  ] $1\033[0m"
 }

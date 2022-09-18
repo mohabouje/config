@@ -2,6 +2,7 @@
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 PARENT_DIR="$(dirname "$SCRIPT_DIR")"
+PRE_COMMIT_DIR="${HOME}/.config/.$USER/pre-commit"
 source ${PARENT_DIR}/utils.sh
 
 if [ -z "$MBB_DEFAULT_NAME" ] || [ -z "$MBB_DEFAULT_EMAIL" ]; then
@@ -38,5 +39,6 @@ git config --global color.diff-highlight.oldHighlight "red bold 52"
 git config --global color.diff-highlight.newNormal "green bold"
 git config --global color.diff-highlight.newHighlight "green bold 22"
 
-copy_files ${SCRIPT_DIR}/hooks/ ${HOME}/.gittemplate/hooks
-copy_files ${SCRIPT_DIR}/ ${HOME}/
+copy_files ${SCRIPT_DIR}/hooks ${HOME}/.gittemplate/hooks
+copy_files ${SCRIPT_DIR}/pre-commit ${PRE_COMMIT_DIR}
+copy_files ${SCRIPT_DIR} ${HOME}

@@ -2,13 +2,13 @@
 
 GIT_ROOT_PATH="$(git rev-parse --show-toplevel)"
 PRE_COMMIT_DIR="${HOME}/.config/.$USER/pre-commit"
-PRE_COMMIT_LOCAL_CONFIG="${GIT_ROOT_PATH}/.pre-commit-config.yaml"
-PRE_COMMIT_GLOBAL_CONFIG="${PRE_COMMIT_DIR}/.pre-commit-config.yaml"
+COMMIT_MSG_LOCAL_CONFIG="${GIT_ROOT_PATH}/.commit-msg-config.yaml"
+COMMIT_MSG_GLOBAL_CONFIG="${PRE_COMMIT_DIR}/.commit-msg-config.yaml"
 
 if [ ! -f "$LOCAL_CONFIG" ]; then
-    ARGS=(hook-impl --config=${PRE_COMMIT_GLOBAL_CONFIG} --hook-type=pre-commit --color=always)
+    ARGS=(hook-impl --config=${COMMIT_MSG_GLOBAL_CONFIG} --hook-type=commit-msg --color=always)
 else
-    ARGS=(hook-impl --config=${PRE_COMMIT_GLOBAL_CONFIG} --hook-type=pre-commit --color=always)
+    ARGS=(hook-impl --config=${COMMIT_MSG_GLOBAL_CONFIG} --hook-type=commit-msg --color=always)
 fi
 
 CURRENT_PATH="$(cd "$(dirname "$0")" && pwd)"

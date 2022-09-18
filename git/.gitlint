@@ -1,6 +1,6 @@
 [general]
 verbosity=2
-gnore-merge-commits=true
+ignore-merge-commits=true
 ignore-revert-commits=true
 ignore-squash-commits=true
 ignore-fixup-commits=true
@@ -16,7 +16,7 @@ min-length=10
 words=foo,bar,baz
 
 [title-match-regex]
-regex=^\[[A-Z]{2,}-\d+\|(wip|dev|test|doc|fix|feat|style|refact|error)\]\s[A-Z]+?[\w]*?(?<!(ing))(?<!(ed))\s[\w\s]*$
+regex=^\[[A-Z]{2,}-\d+\|(wip|dev|test|doc|fix|feat|style|refact|error)\]\s[A-Z].*$
 
 [body-max-line-length]
 line-length=512

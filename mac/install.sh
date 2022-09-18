@@ -28,10 +28,10 @@ if [ "$SHELL" != "/usr/local/bin/zsh" ] && [ "$SHELL" != "/bin/zsh" ]; then
 fi
 
 info "Installing common configuration files..."
-copy_files ${PARENT_DIR}/common/ ${HOME}
+copy_files ${PARENT_DIR}/common ${HOME}
 
 info "Installing common scripts..."
-copy_files ${PARENT_DIR}/scripts/ ${CONFIG_FOLDER}
+copy_files ${PARENT_DIR}/scripts ${CONFIG_FOLDER}
 
 info "Installing fzf..."
 brewif fzf
