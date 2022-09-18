@@ -30,7 +30,7 @@ info "Installing common configuration files..."
 copy_files ${PARENT_DIR}/common/ ${HOME}
 
 info "Installing common scripts..."
-MBB_FOLDER="${HOME}/.config/mbb/$(git rev-parse --short HEAD)"
+MBB_FOLDER="${HOME}/.config/.$USER"
 copy_files ${PARENT_DIR}/scripts/ ${MBB_FOLDER}
 
 info "Installing fzf..."
@@ -93,9 +93,5 @@ prepend ${HOME}/.zshrc 'eval $(thefuck --alias)\n'
 prepend ${HOME}/.zshrc 'eval "$(/opt/homebrew/bin/brew shellenv)"'
 prepend ${HOME}/.zshrc '# Make installed packages available in the terminal'
 
-sh ${PARENT_DIR}/git/install.sh
-
 echo "\n# macOS configuration\n" >>${HOME}/.zshrc
 cat ${SCRIPT_DIR}/.zshrc >>${HOME}/.zshrc
-
-success "Setup completed successfully!"
