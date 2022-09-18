@@ -16,7 +16,7 @@ min-length=10
 words=foo,bar,baz
 
 [title-match-regex]
-regex=^\[[A-Z]{2,}-\d+\|(wip|dev|test|doc|fix|feat|style|refact|error)\]\s[A-Z].*$
+regex=^\[([A-Z]{2,}-\d+\|)?(wip|dev|test|doc|fix|feat|style|refact|error)\]\s[A-Z].*$
 
 [body-max-line-length]
 line-length=512
