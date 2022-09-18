@@ -1,32 +1,28 @@
 #!/bin/sh
 
-$(brew --prefix)/opt/fzf/uninstall >>/dev/null
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+PARENT_DIR="$(dirname "$SCRIPT_DIR")"
+source ${PARENT_DIR}/utils.sh
 
-# Personal scripts and configuration
-rm -rf ${HOME}/.config/mbb
+echo "Removing personal scripts and extra functionalities..."
+delete_folder ${HOME}/.config/mbb
 
-# Common configuration files
-[ -f ${HOME}/.zshrc ] && rm ${HOME}/.zshrc
-[ -f ${HOME}/.nanorc ] && rm ${HOME}/.nanorc
-[ -f ${HOME}/.p10k.zsh ] && rm ${HOME}/.p10k.zsh
-[ -f ${HOME}/.fzf.zsh ] && rm ${HOME}/.fzf.zsh
-[ -f ${HOME}/.fzf.bash ] && rm ${HOME}/.fzf.bash
-[ -f ${HOME}/.zshrc.pre-oh-my-zsh ] && rm ${HOME}/.zshrc.pre-oh-my-zsh
+echo "Deleting zsh related configuration files..."
+delete_file ${HOME}/.zshrc
+delete_file ${HOME}/.p10k.zsh
+delete_file ${HOME}/.fzf.zsh
+delete_file ${HOME}/.fzf.bash
+delete_file ${HOME}/.zshrc.pre-oh-my-zsh
+delete_file ${HOME}/.antidoterc
+delete_file ${HOME}/.antidoterc.zsh
+delete_folder ${HOME}/.oh-my-zsh
+delete_folder ${HOME}/.fzf
+delete_folder ${HOME}/.zsh_sessions
 
-[ -f ${HOME}/.antidoterc ] && rm ${HOME}/.antidoterc
-[ -f ${HOME}/.zshrc.pre-oh-my-zsh ] && rm ${HOME}/.antidoterc.zsh
+echo "Deleting editor related configuration files..."
+delete_file ${HOME}/.vimrc
+delete_file ${HOME}/.nanorc
 
-# Common folders for terminal plugins
-rm -rf ${HOME}/.oh-my-zsh
-rm -rf ${HOME}/.fzf
-rm -rf ${HOME}/.zsh_sessions
-
-# Git configuration files
-[ -f ${HOME}/.gitignore_global ] && rm ${HOME}/.gitignore_global
-[ -f ${HOME}/.gitmessage ] && rm ${HOME}/.gitmessage
-[ -f ${HOME}/.gitattributes ] && rm ${HOME}/.gitattributes
-rm -rf ${HOME}/.git-template
-
-# Third party tools
-[ -f ${HOME}/.ansiweatherrc ] && rm ${HOME}/.ansiweatherrc
-[ -f ${HOME}/.ticker.yaml ] && rm ${HOME}/.ticker.yaml
+echo "Deleting day-to-day tools configuration files..."
+delete_file ${HOME}/.ansiweatherrc
+delete_file ${HOME}/.ticker.yaml

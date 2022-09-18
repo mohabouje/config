@@ -2,30 +2,13 @@
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 PARENT_DIR="$(dirname "$SCRIPT_DIR")"
-MBB_FOLDER="${HOME}/.config/mbb/$(git rev-parse --short HEAD)"
+source ${PARENT_DIR}/utils.sh
 
-prepend() {
-    local file="$1"
-    local text="$2"
-    local tmpFile="$(mktemp)"
-    echo "$text" >"$tmpFile"
-    cat "$file" >>"$tmpFile"
-    mv "$tmpFile" "$file"
-}
-
-brewif() {
+function brewif() {
     local package="$1"
     if ! brew ls --versions "$package" >/dev/null; then
+        debug "Installing $package..."
         brew install "$package"
-    fi
-}
-
-download() {
-    local url="$1"
-    local file="$2"
-    if [ ! -f "$script" ]; then
-        curl -sL "$url" -o "$file"
-        chmod +x "$file"
     fi
 }
 
@@ -35,7 +18,7 @@ if ! command -v brew &>/dev/null; then
 fi
 HOMEBREW_PREFFIX=$(brew --prefix)
 
-echo "Installing zsh..."
+info "Installing zsh..."
 brewif zsh
 
 if [ "$SHELL" != "/usr/local/bin/zsh" ] && [ "$SHELL" != "/bin/zsh" ]; then
@@ -43,24 +26,24 @@ if [ "$SHELL" != "/usr/local/bin/zsh" ] && [ "$SHELL" != "/bin/zsh" ]; then
     chsh -s /bin/zsh
 fi
 
-echo "Installing common configuration files..."
-cp -a ${PARENT_DIR}/common/. ${HOME}
+info "Installing common configuration files..."
+copy_files ${PARENT_DIR}/common/ ${HOME}
 
-echo "Installing common scripts..."
-mkdir -p ${MBB_FOLDER}
-cp -a ${PARENT_DIR}/scripts/. ${MBB_FOLDER}
+info "Installing common scripts..."
+MBB_FOLDER="${HOME}/.config/mbb/$(git rev-parse --short HEAD)"
+copy_files ${PARENT_DIR}/scripts/ ${MBB_FOLDER}
 
-echo "Installing fzf..."
+info "Installing fzf..."
 brewif fzf
 $HOMEBREW_PREFFIX/opt/fzf/install --all >>/dev/null
 
-echo "Installing highlight for editors..."
+info "Installing highlight for editors..."
 brewif --cask nano
 brewif nanorc
 echo "include ${HOMEBREW_PREFFIX}/Cellar/nano/*/share/nano/*.nanorc" >>${HOME}/.nanorc
 echo "set rtp+=${HOMEBREW_PREFFIX}/opt/fzf" >>${HOME}/.vimrc
 
-echo "Installing pre-configured tools..."
+info "Installing pre-configured tools..."
 brewif fd
 brewif btop
 brewif ctop
@@ -76,36 +59,24 @@ brewif antidote
 brewif tmux
 brewif thefuck
 brewif pre-commit
-brewif cppcheck
 
-echo "Installing anaconda..."
+info "Installing anaconda..."
 brewif --cask anaconda
 $HOMEBREW_PREFFIX/anaconda3/bin/conda init zsh >>/dev/null
 
-echo "Installing interesting tools for day-to-day use..."
+info "Installing interesting tools for day-to-day use..."
 brewif ansiweather
 brewif achannarasappa/tap/ticker
 brewif ical-buddy
 
-echo "Installing fonts for iTerm2..."
+info "Installing fonts for iTerm2..."
 brew tap homebrew/cask-fonts
 brewif --cask font-meslo-lg-nerd-font
 
-echo "Installing antidote..."
+info "Installing antidote..."
 brewif antidote
 
-echo "Adding configurations to the shell configuration file..."
-
-# This is an script to make sure that pre-commit is always installed in all git repositories
-mkdir -p ${HOME}/.git-template/hooks
-cp -a ${PARENT_DIR}/git/hooks/. ${HOME}/.git-template/hooks/
-cp -a ${PARENT_DIR}/git/. ${HOME}/
-
-prepend ${HOME}/.zshrc "git config --global init.templateDir \${HOME}/.git-template\n"
-prepend ${HOME}/.zshrc "git config --global core.excludesfile \${HOME}/.gitignore_global"
-prepend ${HOME}/.zshrc "git config --global commit.template \${HOME}/.gitmessage"
-prepend ${HOME}/.zshrc '# Default configuration for git'
-
+info "Adding configurations to the shell configuration file..."
 prepend ${HOME}/.zshrc "export EDITOR=$(which code)\n"
 prepend ${HOME}/.zshrc '# Set the default editor for most operations to code'
 
@@ -122,5 +93,9 @@ prepend ${HOME}/.zshrc 'eval $(thefuck --alias)\n'
 prepend ${HOME}/.zshrc 'eval "$(/opt/homebrew/bin/brew shellenv)"'
 prepend ${HOME}/.zshrc '# Make installed packages available in the terminal'
 
+sh ${PARENT_DIR}/git/install.sh
+
 echo "\n# macOS configuration\n" >>${HOME}/.zshrc
 cat ${SCRIPT_DIR}/.zshrc >>${HOME}/.zshrc
+
+success "Setup completed successfully!"
