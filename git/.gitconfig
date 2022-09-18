@@ -1,9 +1,0 @@
-[user]
-email = mohabouje@gmail.com
-name = Mohammed Boujemaoui Boulaghmoudi
-[commit]
-    template = ~/.gitmessage
-[core]
-    excludesfile = ~/.gitignore_global
-[init]
-    templateDir = ~/.git-template

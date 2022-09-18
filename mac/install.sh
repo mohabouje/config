@@ -101,6 +101,11 @@ mkdir -p ${HOME}/.git-template/hooks
 cp -a ${PARENT_DIR}/git/hooks/. ${HOME}/.git-template/hooks/
 cp -a ${PARENT_DIR}/git/. ${HOME}/
 
+prepend ${HOME}/.zshrc "git config --global init.templateDir \${HOME}/.git-template\n"
+prepend ${HOME}/.zshrc "git config --global core.excludesfile \${HOME}/.gitignore_global"
+prepend ${HOME}/.zshrc "git config --global commit.template \${HOME}/.gitmessage"
+prepend ${HOME}/.zshrc '# Default configuration for git'
+
 prepend ${HOME}/.zshrc "export EDITOR=$(which code)\n"
 prepend ${HOME}/.zshrc '# Set the default editor for most operations to code'
 
