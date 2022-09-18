@@ -19,6 +19,8 @@ delete_folder ${HOME}/.oh-my-zsh
 delete_folder ${HOME}/.fzf
 delete_folder ${HOME}/.zsh_sessions
 
+rm ${HOME}/.zshrc.pre-oh-my-zsh* 2>/dev/null
+
 info "Deleting editor related configuration files..."
 delete_file ${HOME}/.vimrc
 delete_file ${HOME}/.nanorc

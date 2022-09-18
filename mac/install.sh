@@ -77,8 +77,8 @@ info "Installing antidote..."
 brewif antidote
 
 info "Adding configurations to the shell configuration file..."
-prepend ${HOME}/.zshrc "export EDITOR=$(which code)\n"
-prepend ${HOME}/.zshrc '# Set the default editor for most operations to code'
+prepend ${HOME}/.zshrc "export EDITOR=$(which nano)\n"
+prepend ${HOME}/.zshrc '# Set the default editor for most operations in terminal to nano'
 
 prepend ${HOME}/.zshrc "for f in ${MBB_FOLDER}/*.zsh; do source \$f; done\n"
 prepend ${HOME}/.zshrc '# Load extensions and extra functionalities'

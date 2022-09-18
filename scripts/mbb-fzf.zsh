@@ -7,8 +7,6 @@
 # - Add options to fzf to ignore .gitingore and .gitignore_global
 # - Add options to fzf to ignore .git
 
-export FZF_PREVIEW='([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (tree -C {} | less)) || echo {} 2>/dev/null | head -n 200'
-export FZF_PREVIEW_WINDOW=':nohidden'
 export FZF_DEFAULT_COMMAND='fd --color=always --strip-cwd-prefix --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND="${FZF_DEFAULT_COMMAND} --type f"
 export FZF_ALT_C_COMMAND="${FZF_DEFAULT_COMMAND} --type d"
@@ -22,6 +20,8 @@ FZF_DEFAULT_OPTS+=' --border'
 FZF_DEFAULT_OPTS+=' --prompt="∼ "'
 FZF_DEFAULT_OPTS+=' --pointer="▶"'
 FZF_DEFAULT_OPTS+=' --marker="✓"'
+FZF_DEFAULT_OPTS+=' --preview="bat --color=always --style=numbers --line-range :500 {}"'
+FZF_DEFAULT_OPTS+=' --preview-window=right:nohidden:wrap'
 FZF_DEFAULT_OPTS+=' --bind "?:toggle-preview"'
 FZF_DEFAULT_OPTS+=' --bind "ctrl-a:select-all"'
 FZF_DEFAULT_OPTS+=' --bind "ctrl-d:deselect-all"'
