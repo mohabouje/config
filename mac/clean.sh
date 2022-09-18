@@ -2,10 +2,11 @@
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 PARENT_DIR="$(dirname "$SCRIPT_DIR")"
+CONFIG_FOLDER="${HOME}/.config/.$USER"
 source ${PARENT_DIR}/utils.sh
 
 info "Removing personal scripts and extra functionalities..."
-delete_folder ${HOME}/.config/.$USER
+delete_folder ${CONFIG_FOLDER}
 
 info "Deleting zsh related configuration files..."
 delete_file ${HOME}/.zshrc

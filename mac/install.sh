@@ -2,6 +2,7 @@
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 PARENT_DIR="$(dirname "$SCRIPT_DIR")"
+CONFIG_FOLDER="${HOME}/.config/.$USER"
 source ${PARENT_DIR}/utils.sh
 
 function brewif() {
@@ -30,8 +31,7 @@ info "Installing common configuration files..."
 copy_files ${PARENT_DIR}/common/ ${HOME}
 
 info "Installing common scripts..."
-MBB_FOLDER="${HOME}/.config/.$USER"
-copy_files ${PARENT_DIR}/scripts/ ${MBB_FOLDER}
+copy_files ${PARENT_DIR}/scripts/ ${CONFIG_FOLDER}
 
 info "Installing fzf..."
 brewif fzf
@@ -79,9 +79,6 @@ brewif antidote
 info "Adding configurations to the shell configuration file..."
 prepend ${HOME}/.zshrc "export EDITOR=$(which nano)\n"
 prepend ${HOME}/.zshrc '# Set the default editor for most operations in terminal to nano'
-
-prepend ${HOME}/.zshrc "for f in ${MBB_FOLDER}/*.zsh; do source \$f; done\n"
-prepend ${HOME}/.zshrc '# Load extensions and extra functionalities'
 
 prepend ${HOME}/.zshrc "export PATH=\"\${HOME}/.git-fuzzy/bin:\$PATH\"\n"
 prepend ${HOME}/.zshrc "# Load default git-fuzzy binaries"

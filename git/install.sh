@@ -13,9 +13,10 @@ fi
 info "Adding a global configuration for git..."
 git config --global user.name "${MBB_DEFAULT_NAME}"
 git config --global user.email "${MBB_DEFAULT_EMAIL}"
+git config --global init.defaultBranch "main"
 
 # Global gitignore, gitattributes and hooks
-git config --global init.templateDir "${HOME}/.githooks"
+git config --global init.templateDir "${HOME}/.gittemplate"
 git config --global commit.template "${HOME}/.gitmessage"
 git config --global core.excludesfile "${HOME}/.gitignore"
 
@@ -37,5 +38,5 @@ git config --global color.diff-highlight.oldHighlight "red bold 52"
 git config --global color.diff-highlight.newNormal "green bold"
 git config --global color.diff-highlight.newHighlight "green bold 22"
 
-copy_files ${SCRIPT_DIR}/hooks/ ${HOME}/.githooks/
+copy_files ${SCRIPT_DIR}/hooks/ ${HOME}/.gittemplate/hooks
 copy_files ${SCRIPT_DIR}/ ${HOME}/

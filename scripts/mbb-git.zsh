@@ -70,6 +70,20 @@ function mbb-git-commit() {
 }
 alias gcommit='mbb-git-commit'
 
+# Install the global pre-commit hook in the current repository
+function mbb-git-install-hooks() {
+    __is_in_git_repo || { echo "This is not a git repository" && return }
+    cp -a ${HOME}/.gittemplate/hooks/. $(pwd)/.git/hooks
+}
+alias ginstallhooks='mbb-git-install-hooks'
+
+# Adds to the gitingore file an specific programming language
+function mbb-git-generate-gitignore() {
+    __is_in_git_repo || { echo "This is not a git repository" && return }
+    gi $1 >> $(pwd)/.gitignore
+}
+alias ggitignore='mbb-git-generate-gitignore'
+
 # Custom key-binding to keep consistency cross platforms
 export GIT_FUZZY_SELECT_ALL_KEY="Ctrl-A"
 export GIT_FUZZY_SELECT_NONE_KEY="Ctrl-D"
@@ -83,5 +97,3 @@ alias gf-commit=git-fuzzy status
 alias gf-log=git-fuzzy log
 alias gf-diff=git-fuzzy diff
 alias gf-branch=git-fuzzy branch
-
-alias gitignore=gi
