@@ -22,11 +22,10 @@ rm -rf ${HOME}/.fzf
 rm -rf ${HOME}/.zsh_sessions
 
 # Git configuration files
-# rm ${HOME}/.gitconfig
-# rm ${HOME}/.gitignore_global
-# rm ${HOME}/.gitmessage
-# rm ${HOME}/.gitattributes
-# rm ${HOME}/.gitconfig
+[ -f ${HOME}/.gitignore_global ] && rm ${HOME}/.gitignore_global
+[ -f ${HOME}/.gitmessage ] && rm ${HOME}/.gitmessage
+[ -f ${HOME}/.gitattributes ] && rm ${HOME}/.gitattributes
+rm -rf ${HOME}/.git-template
 
 # Third party tools
 [ -f ${HOME}/.ansiweatherrc ] && rm ${HOME}/.ansiweatherrc
