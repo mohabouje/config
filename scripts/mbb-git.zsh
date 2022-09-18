@@ -92,8 +92,9 @@ export GIT_FUZZY_STATUS_RESET_KEY='Ctrl-R'
 export GIT_FUZZY_STATUS_EDIT_KEY='Ctrl-E'
 export GIT_FUZZY_STATUS_COMMIT_KEY='Space'
 export GIT_FUZZY_STATUS_DISCARD_KEY='Ctrl-K'
+export GF_LOG_MENU_PARAMS='--pretty="%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --topo-order'
 
-alias gf-commit=git-fuzzy status
-alias gf-log=git-fuzzy log
-alias gf-diff=git-fuzzy diff
-alias gf-branch=git-fuzzy branch
+alias gfuzzy="git-fuzzy status"
+alias glog="git-fuzzy log"
+alias gdiff="git-fuzzy diff"
+alias gbranch="git-fuzzy branch"
