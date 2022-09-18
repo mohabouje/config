@@ -75,6 +75,8 @@ brewif exa
 brewif antidote
 brewif tmux
 brewif thefuck
+brewif pre-commit
+brewif cppcheck
 
 echo "Installing anaconda..."
 brewif --cask anaconda
@@ -93,6 +95,11 @@ echo "Installing antidote..."
 brewif antidote
 
 echo "Adding configurations to the shell configuration file..."
+
+# This is an script to make sure that pre-commit is always installed in all git repositories
+mkdir -p ${HOME}/.git-template/hooks
+cp -a ${PARENT_DIR}/git/hooks/. ${HOME}/.git-template/hooks/
+cp -a ${PARENT_DIR}/git/. ${HOME}/
 
 prepend ${HOME}/.zshrc "export EDITOR=$(which code)\n"
 prepend ${HOME}/.zshrc '# Set the default editor for most operations to code'

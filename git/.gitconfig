@@ -1,0 +1,9 @@
+[user]
+email = mohabouje@gmail.com
+name = Mohammed Boujemaoui Boulaghmoudi
+[commit]
+    template = !bash -c '"echo \"${HOME}/.gitmessage\";"'
+[core]
+    excludesfile = !bash -c '"echo \"${HOME}/.gitignore_global\";"'
+[init]
+    templateDir = !bash -c '"echo \"${HOME}/.git-template\";"'

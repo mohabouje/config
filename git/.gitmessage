@@ -1,0 +1,26 @@
+# <JIRA>:<TYPE> <SUMMARY>
+
+# Body describing the change, start with an empty line
+# - What: Describe the change in one or two sentences
+# - Why: Describe the reason for the change
+# - How: Describe the technical details of the change
+
+# Also check the following:
+# - Relevant information: JIRA ticket, links, etc. (if any)
+# - Next: Provide links to JIRA tickets, or other resources. (if any)
+
+# --- COMMIT END ---
+# SUMMARY contains a brief summary of the change. 
+# - It should be a single line, and should not exceed 50 characters.
+# - It should be written in the imperative mood.
+# - It should be capitalized.
+# - It should not end with a period.# 
+# JIRA contains the JIRA ticket number, e.g. "JIRA-1234"
+# TYPE can be any of the following:
+# - FEAT     (new feature)
+# - FIX      (bug fix)
+# - REFACT (refactoring production code)
+# - STYLE    (formatting, missing semi colons, etc; no code change)
+# - DOC     (changes to documentation)
+# - TEST     (adding or refactoring tests; no production code change)
+# - WIP      (work in progress commit to be squashed -- do not push!)**
