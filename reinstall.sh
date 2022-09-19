@@ -1,6 +1,6 @@
 #!/bin/sh
-SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 
-sh ${SCRIPT_DIR}/clean.sh
-sh ${SCRIPT_DIR}/install.sh
-exec $SHELL
+ROOT_DIRECTORY=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+sh ${ROOT_DIRECTORY}/clean.sh
+sh ${ROOT_DIRECTORY}/install.sh
+sh ${ROOT_DIRECTORY}/configure.sh

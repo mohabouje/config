@@ -1,19 +1,15 @@
 #!/bin/sh
+source ${UTILS_FILE}
 
-SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
-PARENT_DIR="$(dirname "$SCRIPT_DIR")"
-PRE_COMMIT_DIR="${HOME}/.config/.$USER/pre-commit"
-source ${PARENT_DIR}/utils.sh
-
-if [ -z "$MBB_DEFAULT_NAME" ] || [ -z "$MBB_DEFAULT_EMAIL" ]; then
-    warn "Missing MBB_DEFAULT_NAME and MBB_DEFAULT_EMAIL in environment"
-    MBB_DEFAULT_NAME="Mohammed Boujemaoui Boulaghmoudi"
-    MBB_DEFAULT_EMAIL="mohabouje@gmail.com"
+if [ -z "$DEFAULT_NAME" ] || [ -z "$DEFAULT_EMAIL" ]; then
+    warn "Missing DEFAULT_NAME and DEFAULT_EMAIL in environment"
+    DEFAULT_NAME="Mohammed Boujemaoui Boulaghmoudi"
+    DEFAULT_EMAIL="mohabouje@gmail.com"
 fi
 
 info "Adding a global configuration for git..."
-git config --global user.name "${MBB_DEFAULT_NAME}"
-git config --global user.email "${MBB_DEFAULT_EMAIL}"
+git config --global user.name "${DEFAULT_NAME}"
+git config --global user.email "${DEFAULT_EMAIL}"
 git config --global init.defaultBranch "main"
 
 # Global gitignore, gitattributes and hooks
@@ -39,6 +35,6 @@ git config --global color.diff-highlight.oldHighlight "red bold 52"
 git config --global color.diff-highlight.newNormal "green bold"
 git config --global color.diff-highlight.newHighlight "green bold 22"
 
-copy_files ${SCRIPT_DIR}/hooks ${HOME}/.gittemplate/hooks
-copy_files ${SCRIPT_DIR}/pre-commit ${PRE_COMMIT_DIR}
-copy_files ${SCRIPT_DIR} ${HOME}
+copy_files ${GIT_DIR}/hooks ${HOME}/.gittemplate/hooks
+copy_files ${GIT_DIR}/pre-commit ${PRE_COMMIT_DIR}
+cp -r ${GIT_DIR}/.[^.]* ${HOME}

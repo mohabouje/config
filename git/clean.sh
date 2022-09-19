@@ -1,8 +1,5 @@
 #!/bin/sh
-
-SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
-PARENT_DIR="$(dirname "$SCRIPT_DIR")"
-source ${PARENT_DIR}/utils.sh
+source ${UTILS_FILE}
 
 info "Removing git configuration files..."
 delete_file ${HOME}/.gitignore
