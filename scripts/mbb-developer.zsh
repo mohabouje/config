@@ -12,7 +12,7 @@ function mbb-open-editor() {
     :
   fi
 }
-alias ocode='mbb-open-editor'
+alias open-code='mbb-open-editor'
 
 # Grep for a string in a file and open it with code
 function mbb-grep-code() {
@@ -25,11 +25,34 @@ function mbb-grep-code() {
     return $?
   fi 
 }
-alias gcode='mbb-grep-code'
+alias grep-code='mbb-grep-code'
 
 alias debugger-start='seergdb --start'        # Debug myprog with its arguments. Break in main(). Ex: prog arg1 arg2
 alias debugger-run='seergdb --run'            # Debug myprog with its arguments. Run it immediately without breaking. Ex: prog arg1 arg2 
-alias debugger-attach='--attach'              # Debug myprog by attaching to the currently running pid. Ex: <pid>  prog 
 alias debugger-connect='seergdb --connect'    # Debug myprog by connecting to the currently started gdbserver process. Ex: <host:port> prog
-alias debugger-corefile='seergdb --core'      # Debug a corefile for myprog. Ex: <corefile> prog
 alias debugger='seergdb'                      # Bring up a dialog box to set the program and debug method.
+
+
+function mbb-debugger-attach() {
+  local pid
+  pid=$(ps -ef | sed 1d | fzf --preview '' -m | awk '{print $2}')
+
+  if [ "x$pid" != "x" ]
+  then
+    seergdb --attach $pid $1
+  fi
+}
+alias debugger-attach='mbb-debugger-attach'
+
+
+function mbb-debugger-codedump() {
+  FD_COMMAND="fd --color=always --strip-cwd-prefix --hidden --follow --exclude .git --type f"
+  local file=$(FZF_DEFAULT_COMMAND="${FD_COMMAND}" fzf --multi --reverse)
+  if [[ $file ]]; then
+    for prog in $(echo $file);
+    do; seergdb --core $prog $1; done;
+  else
+    :
+  fi
+}
+alias debugger-coredump='mbb-debugger-codedump'

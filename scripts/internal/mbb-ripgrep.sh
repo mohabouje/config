@@ -13,4 +13,4 @@ IFS=: read -ra selected < <(
         --delimiter : \
         --preview 'bat --color=always {1} --highlight-line {2}'
 )
-[ -n "${selected[0]}" ] && $EDITOR --goto "${selected[0]}:${selected[1]}"
+[ -n "${selected[0]}" ] && code "${selected[0]}:${selected[1]}"
