@@ -4,7 +4,7 @@
 # Search for a file and open it with code
 function mbb-open-editor() {
   FD_COMMAND="fd --color=always --strip-cwd-prefix --hidden --follow --exclude .git --type f"
-  local file=$(FZF_DEFAULT_COMMAND="${FD_COMMAND}" fzf --multi --reverse)
+  local file=$(FZF_DEFAULT_COMMAND="${FD_COMMAND}" fzf --multi --reverse --preview-window=right:hidden:wrap)
   if [[ $file ]]; then
     for prog in $(echo $file);
     do; code $prog; done;
