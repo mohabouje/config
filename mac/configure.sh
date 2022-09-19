@@ -12,9 +12,7 @@ append_ln ${HOME}/.zshenv '# Environment variables to change $EDITOR and $PAGER'
 append ${HOME}/.zshenv 'export EDITOR=${HOMEBREW_PREFIX}/bin/nano'
 
 append_ln ${HOME}/.zshenv '# Environment variables for LLVM'
-append ${HOME}/.zshenv 'export PATH="${HOMEBREW_PREFIX}/opt/llvm@14/bin:$PATH"'
-append ${HOME}/.zshenv 'export CPPFLAGS="-I${HOMEBREW_PREFIX}/opt/llvm@14/include"'
-append ${HOME}/.zshenv 'export LDFLAGS="-L${HOMEBREW_PREFIX}/opt/llvm@14/lib"'
+append ${HOME}/.zshenv 'export PATH="${HOMEBREW_PREFIX}/opt/llvm/bin:$PATH"'
 
 append_ln ${HOME}/.zshenv '# Environment variables for pyenv'
 append ${HOME}/.zshenv 'export PYENV_ROOT="$HOME/.pyenv"'

@@ -1,3 +1,6 @@
+# Alternative patch for seer
+alias seergdb='/usr/local/bin/seergdb.app/Contents/MacOS/seergdb'
+
 # Simple alias to integrate with system calendar
 alias calendar-today="icalBuddy eventsToday"
 alias calendar-now="icalBuddy eventsNow"

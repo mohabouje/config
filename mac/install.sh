@@ -51,12 +51,21 @@ brewif pre-commit
 
 info "Installing common development tools..."
 brewif git
-brewif gdb --with-python --with-all-targets
+
+# info "Installating valgrind addapted to M1 architecture..."
+# brew tap LouisBrunner/valgrind
+# brew install --HEAD LouisBrunner/valgrind/valgrind
+
+# info "Installating gdb addapted to M1 architecture..."
+# sudo port install gdb-apple
+# ln -s $(which gdb-apple) /opt/homebrew/bin/gdb
 
 info "Installing environment for C++..."
 brewif cmake
 brewif ninja
-brewif llvm@14
+brewif llvm
+brewif ccache
+brewif gcc
 
 info "Installing environment for Python..."
 execute python3 -m pip install -r ${ROOT_DIR}/requirements.txt
@@ -82,3 +91,18 @@ brewif --cask font-meslo-lg-nerd-font
 
 info "Installing antidote..."
 brewif antidote
+
+info "Installing seer to use gdb with a nice interface..."
+if ! command -v seergdb &>/dev/null; then
+    info "Installing seer..."
+    brewif qt@5
+    export CMAKE_PREFIX_PATH="/opt/homebrew/opt/qt@5:$CMAKE_PREFIX_PATH";
+    export PKG_CONFIG_PATH="/opt/homebrew/opt/qt@5/lib/pkgconfig"
+    export CPPFLAGS="-I/opt/homebrew/opt/qt@5/include"
+    export LDFLAGS="-L/opt/homebrew/opt/qt@5/lib"
+    rm -rf ${HOME}/.seer
+    git clone https://github.com/epasveer/seer ${HOME}/.seer
+    perl -p  -e 'print "cmake_policy(SET CMP0006 OLD)" if $. == 4' ${HOME}/.seer/src/CMakeLists.txt > ${HOME}/.seer/src/CMakeLists.fixed
+    mv ${HOME}/.seer/src/CMakeLists.fixed ${HOME}/.seer/src/CMakeLists.txt
+    (cd ${HOME}/.seer/src && rm -rf build && mkdir -p build  && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release && make -j10 && sudo make install)
+fi
