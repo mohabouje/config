@@ -36,5 +36,5 @@ git config --global color.diff-highlight.newNormal "green bold"
 git config --global color.diff-highlight.newHighlight "green bold 22"
 
 copy_files ${GIT_DIR}/hooks ${HOME}/.gittemplate/hooks
-copy_files ${GIT_DIR}/pre-commit ${PRE_COMMIT_DIR}
+copy_files ${GIT_DIR}/pre-commit ${CONFIG_DIR}/pre-commit
 cp -r ${GIT_DIR}/.[^.]* ${HOME}
