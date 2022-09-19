@@ -13,4 +13,4 @@ IFS=: read -ra selected < <(
         --delimiter : \
         --preview 'bat --color=always {1} --highlight-line {2}'
 )
-[ -n "${selected[0]}" ] && nano "+${selected[1]}" "${selected[1]}"
+[ -n "${selected[0]}" ] && nano "+${selected[1]}" "${selected[0]}"

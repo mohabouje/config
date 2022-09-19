@@ -12,7 +12,7 @@ function mbb-open-code() {
     :
   fi
 }
-alias ocode='mbb-open-nano '
+alias ocode='mbb-open-nano'
 
 # Grep for a string in a file and open it with code
 function mbb-grep-code() {
@@ -28,30 +28,30 @@ function mbb-grep-code() {
 alias gcode='mbb-grep-code'
 
 # Search for a file and open it with the default $nano 
-function mbb-open-nano () {
+function mbb-open-nano() {
   FD_COMMAND="fd --color=always --strip-cwd-prefix --hidden --follow --exclude .git --type f"
   local file=$(FZF_DEFAULT_COMMAND="${FD_COMMAND}" fzf --multi --reverse --preview-window=right:hidden:wrap)
   if [[ $file ]]; then
     for prog in $(echo $file);
-    do; nano  $prog; done;
+    do; nano $prog; done;
   else
     :
   fi
 }
-alias onano ='mbb-open-nano '
+alias onano='mbb-open-nano'
 
 # Grep for a string in a file and open it with code
-function mbb-grep-nano () {
+function mbb-grep-nano() {
   SCRIPT_PARENT=${${(%):-%x}:A:h}
   if [ -n "$1" ]; then
-		$SCRIPT_PARENT/internal/mbb-ripgrep-nano .sh "$@"
+		$SCRIPT_PARENT/internal/mbb-ripgrep-nano.sh "$@"
 		return $?
 	else
-    $SCRIPT_PARENT/internal/mbb-ripgrep-nano .sh
+    $SCRIPT_PARENT/internal/mbb-ripgrep-nano.sh
     return $?
   fi 
 }
-alias gnano ='mbb-grep-nano'
+alias gnano='mbb-grep-nano'
 
 alias debugger-start='seergdb --start'        # Debug myprog with its arguments. Break in main(). Ex: prog arg1 arg2
 alias debugger-run='seergdb --run'            # Debug myprog with its arguments. Run it immediately without breaking. Ex: prog arg1 arg2 
