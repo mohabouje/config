@@ -26,11 +26,6 @@ info "Installing fzf..."
 brewif fzf
 execute $(brew --prefix)/opt/fzf/install --all
 
-info "Installing highlighting for editors..."
-brewif --cask nano
-brewif nanorc
-echo "include $(brew --prefix)/Cellar/nano/*/share/nano/*.nanorc" >>${HOME}/.nanorc
-
 info "Installing productivy-boosting tools..."
 brewif python3
 brewif fd
@@ -48,6 +43,34 @@ brewif antidote
 brewif tmux
 brewif thefuck
 brewif pre-commit
+
+info "Installing GUI tools for developers..."
+brewif --cask nano
+brewif --cask qt-creator
+brewif --cask tower
+brewif --cask clion
+brewif --cask pycharm
+brewif --cask code
+brewif --cask iterm2
+brewif --cask docker
+brewif --cask wireshark
+
+info "Installing GUI tools for productivity..."
+brewif --cask notion
+brewif --cask typora
+
+info "Installing GUI tools for communication..."
+brewif --cask zoom
+brewif --cask microsoft-teams
+
+info "Installing GUI tools for entertainment..."
+brewif --cask spotify
+brewif --cask whatsapp
+brewif --cask discord
+
+info "Installing highlighting for editors..."
+brewif nanorc
+echo "include $(brew --prefix)/Cellar/nano/*/share/nano/*.nanorc" >>${HOME}/.nanorc
 
 info "Installing common development tools..."
 brewif git

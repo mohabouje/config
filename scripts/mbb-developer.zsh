@@ -2,7 +2,7 @@
 # The file is meant to be sourced in .zshrc or .bashrc.
 
 # Search for a file and open it with code
-function mbb-open-editor() {
+function mbb-open-code() {
   FD_COMMAND="fd --color=always --strip-cwd-prefix --hidden --follow --exclude .git --type f"
   local file=$(FZF_DEFAULT_COMMAND="${FD_COMMAND}" fzf --multi --reverse --preview-window=right:hidden:wrap)
   if [[ $file ]]; then
@@ -12,7 +12,7 @@ function mbb-open-editor() {
     :
   fi
 }
-alias open-code='mbb-open-editor'
+alias ocode='mbb-open-nano '
 
 # Grep for a string in a file and open it with code
 function mbb-grep-code() {
@@ -25,7 +25,33 @@ function mbb-grep-code() {
     return $?
   fi 
 }
-alias grep-code='mbb-grep-code'
+alias gcode='mbb-grep-code'
+
+# Search for a file and open it with the default $nano 
+function mbb-open-nano () {
+  FD_COMMAND="fd --color=always --strip-cwd-prefix --hidden --follow --exclude .git --type f"
+  local file=$(FZF_DEFAULT_COMMAND="${FD_COMMAND}" fzf --multi --reverse --preview-window=right:hidden:wrap)
+  if [[ $file ]]; then
+    for prog in $(echo $file);
+    do; nano  $prog; done;
+  else
+    :
+  fi
+}
+alias onano ='mbb-open-nano '
+
+# Grep for a string in a file and open it with code
+function mbb-grep-nano () {
+  SCRIPT_PARENT=${${(%):-%x}:A:h}
+  if [ -n "$1" ]; then
+		$SCRIPT_PARENT/internal/mbb-ripgrep-nano .sh "$@"
+		return $?
+	else
+    $SCRIPT_PARENT/internal/mbb-ripgrep-nano .sh
+    return $?
+  fi 
+}
+alias gnano ='mbb-grep-nano'
 
 alias debugger-start='seergdb --start'        # Debug myprog with its arguments. Break in main(). Ex: prog arg1 arg2
 alias debugger-run='seergdb --run'            # Debug myprog with its arguments. Run it immediately without breaking. Ex: prog arg1 arg2 
