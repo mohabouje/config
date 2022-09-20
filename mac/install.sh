@@ -52,9 +52,7 @@ brewif --cask tower
 brewif --cask clion
 brewif --cask pycharm
 brewif --cask code
-brewif --cask iterm2
 brewif --cask tabby
-brewif --cask hyper
 brewif --cask docker
 brewif --cask wireshark
 brewif --cask go2shell
