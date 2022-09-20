@@ -1,6 +1,11 @@
 #!/bin/sh
 source ${UTILS_FILE}
 
+if ! command -v brew &>/dev/null; then
+    error "Homebrew is not installed. Please install it first."
+    exit 1
+fi
+
 function brewif() {
     local package="$1"
     if ! brew ls --versions "$package" >/dev/null; then
@@ -8,11 +13,6 @@ function brewif() {
         brew install $package
     fi
 }
-
-if ! command -v brew &>/dev/null; then
-    info "Installing homebrew..."
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-fi
 
 info "Installing zsh..."
 brewif zsh
@@ -43,7 +43,6 @@ brewif antidote
 brewif tmux
 brewif thefuck
 brewif pre-commit
-brewif pstree
 
 info "Installing GUI tools for developers..."
 brewif --cask nano
@@ -52,7 +51,7 @@ brewif --cask tower
 brewif --cask clion
 brewif --cask pycharm
 brewif --cask code
-brewif --cask tabby
+brewif --cask iterm2
 brewif --cask docker
 brewif --cask wireshark
 brewif --cask go2shell
