@@ -2,7 +2,7 @@
 source ${UTILS_FILE}
 
 if [ -z "$DEFAULT_NAME" ] || [ -z "$DEFAULT_EMAIL" ]; then
-    warn "Missing DEFAULT_NAME and DEFAULT_EMAIL in environment"
+    warning "Missing DEFAULT_NAME and DEFAULT_EMAIL in environment"
     DEFAULT_NAME="Mohammed Boujemaoui Boulaghmoudi"
     DEFAULT_EMAIL="mohabouje@gmail.com"
 fi

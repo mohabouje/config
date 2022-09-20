@@ -5,13 +5,13 @@ function brewif() {
     local package="$1"
     if ! brew ls --versions "$package" >/dev/null; then
         debug "Installing $package..."
-        execute brew install $package
+        brew install $package
     fi
 }
 
 if ! command -v brew &>/dev/null; then
     info "Installing homebrew..."
-    execute /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
 info "Installing zsh..."
@@ -19,12 +19,12 @@ brewif zsh
 
 if [ "$SHELL" != "$(brew --prefix)/bin/zsh" ] && [ "$SHELL" != "/bin/zsh" ] ; then
     info "Changing shell to zsh..."
-    execute "chsh -s $(which zsh)"
+    "chsh -s $(which zsh)"
 fi
 
 info "Installing fzf..."
 brewif fzf
-execute $(brew --prefix)/opt/fzf/install --all
+$(brew --prefix)/opt/fzf/install --all
 
 info "Installing productivy-boosting tools..."
 brewif python3
@@ -43,6 +43,7 @@ brewif antidote
 brewif tmux
 brewif thefuck
 brewif pre-commit
+brewif pstree
 
 info "Installing GUI tools for developers..."
 brewif --cask nano
@@ -52,8 +53,11 @@ brewif --cask clion
 brewif --cask pycharm
 brewif --cask code
 brewif --cask iterm2
+brewif --cask tabby
+brewif --cask hyper
 brewif --cask docker
 brewif --cask wireshark
+brewif --cask go2shell
 
 info "Installing GUI tools for productivity..."
 brewif --cask notion
@@ -91,14 +95,14 @@ brewif ccache
 brewif gcc
 
 info "Installing environment for Python..."
-execute python3 -m pip install -r ${ROOT_DIR}/requirements.txt
+python3 -m pip install -r ${ROOT_DIR}/requirements.txt
 
 info "Installing environment for Go..."
 brewif go
 
 info "Installing environment for Rust..."
 brewif rustup
-execute rustup-init -y
+rustup-init -y
 
 info "Installing pyenv..."
 brewif pyenv
@@ -108,7 +112,7 @@ brewif ansiweather
 brewif achannarasappa/tap/ticker
 brewif ical-buddy
 
-info "Installing fonts for iTerm2..."
+info "Installing nerd fonts..."
 brew tap homebrew/cask-fonts
 brewif --cask font-meslo-lg-nerd-font
 
@@ -125,7 +129,10 @@ if ! command -v seergdb &>/dev/null; then
     export LDFLAGS="-L/opt/homebrew/opt/qt@5/lib"
     rm -rf ${HOME}/.seer
     git clone https://github.com/epasveer/seer ${HOME}/.seer
-    perl -p  -e 'print "cmake_policy(SET CMP0006 OLD)" if $. == 4' ${HOME}/.seer/src/CMakeLists.txt > ${HOME}/.seer/src/CMakeLists.fixed
+    perl -p -e 'print "cmake_policy(SET CMP0006 OLD)" if $. == 4' ${HOME}/.seer/src/CMakeLists.txt > ${HOME}/.seer/src/CMakeLists.fixed
     mv ${HOME}/.seer/src/CMakeLists.fixed ${HOME}/.seer/src/CMakeLists.txt
-    (cd ${HOME}/.seer/src && rm -rf build && mkdir -p build  && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release && make -j10 && sudo make install)
+    mkdir -p ${HOME}/.seer/src/build
+    cmake -B${HOME}/.seer/src -S${HOME}/.seer/src/  -DCMAKE_BUILD_TYPE=Release
+    cmake --build ${HOME}/.seer/src -j10
+    sudo cmake --install ${HOME}/.seer/src
 fi
