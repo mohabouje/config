@@ -82,3 +82,6 @@ function mbb-debugger-codedump() {
   fi
 }
 alias debugger-coredump='mbb-debugger-codedump'
+
+# Useful alias for python
+alias python-site-packages="python3 -c 'import sysconfig; print(sysconfig.get_paths()[\"purelib\"])"
