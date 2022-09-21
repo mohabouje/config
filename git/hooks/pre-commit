@@ -5,7 +5,7 @@ PRE_COMMIT_DIR="${HOME}/.gittemplate/pre-commit"
 PRE_COMMIT_LOCAL_CONFIG="${GIT_ROOT_PATH}/.pre-commit-config.yaml"
 PRE_COMMIT_GLOBAL_CONFIG="${PRE_COMMIT_DIR}/.pre-commit-config.yaml"
 
-if [ ! -f "$LOCAL_CONFIG" ]; then
+if [ ! -f "$PRE_COMMIT_LOCAL_CONFIG" ]; then
     ARGS=(hook-impl --config=${PRE_COMMIT_GLOBAL_CONFIG} --hook-type=pre-commit --color=always)
 else
     ARGS=(hook-impl --config=${PRE_COMMIT_LOCAL_CONFIG} --hook-type=pre-commit --color=always)
