@@ -5,7 +5,7 @@ PRE_COMMIT_DIR="${HOME}/.gittemplate/pre-commit"
 COMMIT_MSG_LOCAL_CONFIG="${GIT_ROOT_PATH}/.commit-msg-config.yaml"
 COMMIT_MSG_GLOBAL_CONFIG="${PRE_COMMIT_DIR}/.commit-msg-config.yaml"
 
-if [ ! -f "$LOCAL_CONFIG" ]; then
+if [ ! -f "$COMMIT_MSG_LOCAL_CONFIG" ]; then
     ARGS=(hook-impl --config=${COMMIT_MSG_GLOBAL_CONFIG} --hook-type=commit-msg --color=always)
 else
     ARGS=(hook-impl --config=${COMMIT_MSG_LOCAL_CONFIG} --hook-type=commit-msg --color=always)
