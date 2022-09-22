@@ -11,9 +11,6 @@ append ${HOME}/.zshenv "export HOMEBREW_PREFIX=${HOMEBREW_PREFIX}"
 append_ln ${HOME}/.zshenv '# Environment variables to change $EDITOR and $PAGER'
 append ${HOME}/.zshenv 'export EDITOR=${HOMEBREW_PREFIX}/bin/nano'
 
-append_ln ${HOME}/.zshenv '# Environment variables for LLVM'
-append ${HOME}/.zshenv 'export PATH="${HOMEBREW_PREFIX}/opt/llvm/bin:$PATH"'
-
 append_ln ${HOME}/.zshenv '# Environment variables for pyenv'
 append ${HOME}/.zshenv 'export PYENV_ROOT="$HOME/.pyenv"'
 

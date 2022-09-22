@@ -88,7 +88,6 @@ info "Installing environment for C++..."
 brewif cmake
 brewif conan
 brewif ninja
-brewif llvm
 brewif ccache
 brewif gcc
 
