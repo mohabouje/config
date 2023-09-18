@@ -4,11 +4,5 @@ export CONFIG_DIR="${HOME}/.config/$USER"
 export UTILS_FILE=${ROOT_DIR}/utils.sh
 source ${UTILS_FILE}
 
-OS="$(uname)"
-case $OS in
-'Darwin')
-    export GIT_DIR=${ROOT_DIR}/git
-    export OS_DIR=${ROOT_DIR}/mac
-    ;;
-*) ;;
-esac
+export GIT_DIR=${ROOT_DIR}/git
+export OS_DIR=${ROOT_DIR}/$(uname)
